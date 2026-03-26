@@ -1,7 +1,7 @@
 import axios from "axios"
 import { mockMovies, mockRecommendations, mockTrending, mockRecentlyAdded, mockUser, mockComments } from "./mockData"
 
-const USE_MOCK = true // ← flip to false when backend is ready
+const USE_MOCK = false // ← true = mock data, false = real backend
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
@@ -28,23 +28,35 @@ api.interceptors.response.use(
 
 // --- AUTH ---
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
   if (USE_MOCK) {
-    if (username === "liana" && password === "1234") {
+    if (email === "liana@example.com" && password === "1234") {
       return { token: "fake-jwt-token", user: mockUser }
     }
-    throw new Error("Invalid username or password")
+    throw new Error("Invalid email or password")
   }
-  const res = await api.post("/api/auth/login/", { username, password })
-  return res.data
+  // real: POST /api/v1/auth/signin → { access_token }
+  const res = await api.post("/api/v1/auth/signin", { email, password })
+  const { access_token } = res.data
+  // fetch user info with the new token
+  const userRes = await api.get("/api/v1/auth/me", {
+    headers: { Authorization: `Bearer ${access_token}` },
+  })
+  return { token: access_token, user: userRes.data }
 }
 
 export const register = async (username, email, password) => {
   if (USE_MOCK) {
     return { token: "fake-jwt-token", user: { ...mockUser, username, email } }
   }
-  const res = await api.post("/api/auth/register/", { username, email, password })
-  return res.data
+  // real: POST /api/v1/auth/signup → { access_token }
+  const res = await api.post("/api/v1/auth/signup", { username, email, password })
+  const { access_token } = res.data
+  // fetch user info with the new token
+  const userRes = await api.get("/api/v1/auth/me", {
+    headers: { Authorization: `Bearer ${access_token}` },
+  })
+  return { token: access_token, user: userRes.data }
 }
 
 // --- MOVIES ---

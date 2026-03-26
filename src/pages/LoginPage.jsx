@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext"
 import bgImage from "../assets/wp10615933.png"
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -18,7 +18,7 @@ export default function LoginPage() {
     setError("")
     setLoading(true)
     try {
-      const data = await login(username, password)
+      const data = await login(email, password)
       loginUser(data.token, data.user)
       navigate("/movies")
     } catch (err) {
@@ -37,12 +37,18 @@ export default function LoginPage() {
         style={{ backgroundImage: `url(${bgImage})` }}
       />
 
+      {/* Platform name — top left */}
+      <div className="absolute top-6 left-6 z-20 flex items-center gap-2">
+        <span className="text-2xl">🎬</span>
+        <span className="text-xl font-extrabold tracking-wide text-white">
+          AAA<span style={{ color: "#890202" }}>streamer</span>
+        </span>
+      </div>
+
       {/* Card */}
       <div className="relative z-10 w-full max-w-md bg-[#16171d]/75 backdrop-blur-md border border-white/15 rounded-2xl shadow-2xl p-8 sm:p-10 text-center">
 
-        {/* Logo */}
-        <div className="text-5xl mb-3">🎬</div>
-        <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-1">Welcome back</h2>
+        <h2 className="text-4xl sm:text-5xl font-black text-white mb-1 tracking-tight">Welcome back</h2>
         <p className="text-white/70 text-sm sm:text-base mb-6">Sign in to your account</p>
 
         {/* Error */}
@@ -55,12 +61,12 @@ export default function LoginPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-white/85">Username</label>
+            <label className="text-sm font-medium text-white/85">Email</label>
             <input
-              type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               autoFocus
               className="w-full px-4 py-2.5 rounded-lg border border-white/30 bg-black/35 text-white placeholder-white/40 text-sm focus:outline-none focus:border-white/60"
@@ -88,11 +94,6 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
-
-        {/* Mock hint */}
-        <div className="mt-5 text-xs text-white/60 bg-purple-500/15 border border-purple-500/40 rounded-lg px-3 py-2">
-          💡 Mock login: <strong>liana</strong> / <strong>1234</strong>
-        </div>
 
         {/* Register link */}
         <p className="mt-5 text-sm text-white/60">

@@ -28,6 +28,9 @@ function App() {
           {/* Onboarding (protected, runs once after register) */}
           <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
 
+          {/* ⚡ PREVIEW ONLY — remove before launch */}
+          <Route path="/preview-onboarding" element={<OnboardingPage />} />
+
           {/* Protected routes */}
           <Route path="/movies" element={<ProtectedRoute><MoviesPage /></ProtectedRoute>} />
           <Route path="/movies/:id" element={<ProtectedRoute><MovieDetailPage /></ProtectedRoute>} />

@@ -45,12 +45,18 @@ export default function RegisterPage() {
         style={{ backgroundImage: `url(${bgImage})` }}
       />
 
+      {/* Platform name — top left */}
+      <div className="absolute top-6 left-6 z-20 flex items-center gap-2">
+        <span className="text-2xl">🎬</span>
+        <span className="text-xl font-extrabold tracking-wide text-white">
+          AAA<span style={{ color: "#890202" }}>streamer</span>
+        </span>
+      </div>
+
       {/* Card */}
       <div className="relative z-10 w-full max-w-md bg-[#16171d]/75 backdrop-blur-md border border-white/15 rounded-2xl shadow-2xl p-8 sm:p-10 text-center">
 
-        {/* Logo */}
-        <div className="text-5xl mb-3">🎬</div>
-        <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-1">Create account</h2>
+        <h2 className="text-4xl sm:text-5xl font-black text-white mb-1 tracking-tight">Create account</h2>
         <p className="text-white/70 text-sm sm:text-base mb-6">Sign up to get started</p>
 
         {/* Error */}
